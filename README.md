@@ -48,7 +48,7 @@ Speakr WebSocket sends various events during the interaction, which you need to 
 
 ### 3. Handling WebSocket Events
 
-#### `initial` Event
+### `initial` Event
 
 When the `initial` event is triggered, send the necessary parameters to Speakr to configure the voice session.
 
@@ -75,7 +75,7 @@ Parameters you should include:
 - `temperature`: Controls the randomness of the model’s responses
 - `threshold`: The threshold for voice detection
 
-#### `ready` Event
+### `ready` Event
 
 Once the `ready` event is received, Speakr is prepared to receive audio. The media (audio buffer) sent to Speakr must be encoded in **linear16** format with an 8000Hz sample rate. Each chunk should be 512 bytes in size.
 
@@ -119,7 +119,7 @@ decodeAndSendMulawChunks(buffer, session);
 
 The `decodeAndSendMulawChunks` function (defined later) handles converting and sending the audio to Twilio.
 
-#### `media` Event
+### `media` Event
 
 When you receive a `media` event, you get the audio buffer from Speakr, which you need to send to Twilio. The buffer is in **linear16** format at a 24kHz sample rate, but Twilio requires **mu-law encoding** at 8kHz.
 
@@ -163,7 +163,7 @@ const markMessage = {
 await twiliows.send(JSON.stringify(markMessage));
 ```
 
-#### `pause` Event
+### `pause` Event
 
 This event occurs when the user interrupts the conversation. However, it might not always indicate an intentional interruption. You can clear the buffer sent to Twilio but handle it with caution.
 
@@ -176,23 +176,23 @@ await twiliows.send(
 );
 ```
 
-#### `continue` Event
+### `continue` Event
 
 If the interruption is not significant, replay the previous response's buffer from where the interruption occurred.
 
-#### `clear` Event
+### `clear` Event
 
 This event indicates an actual interruption, and you should proceed to handle the user’s query.
 
-#### `info` Event
+### `info` Event
 
 This event contains details about errors or issues with API parameters or authentication.
 
-#### `end` Event
+### `end` Event
 
 This event signifies the closure of the Speakr WebSocket connection. Perform any necessary cleanup.
 
-### Twilio Mark Implementation
+## Twilio Mark Implementation
 
 When Twilio successfully plays a buffer, it sends a `mark` event back. This event contains the `sequence_id` and `session_id` that you had sent earlier. You need to send these identifiers to Speakr to notify it that the buffer was played.
 
@@ -217,7 +217,7 @@ if (markText) {
 }
 ```
 
-### Helper Functions
+## Helper Functions
 
 Below are essential functions for encoding, decoding, and downsampling audio buffers.
 
