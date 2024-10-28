@@ -1,0 +1,31 @@
+{
+  "name": "speakr-twilio",
+  "version": "1.0.0",
+  "description": "A demo for how you can integrate speakr with twilio",
+  "main": "app.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "keywords": [
+    "Anurag",
+    "twilio",
+    "speakr",
+    "demo",
+    "easy",
+    "integration",
+    "5mins",
+    "instant"
+  ],
+  "author": "Anurag",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "express-ws": "^5.0.2",
+    "uuid": "^11.0.2",
+    "wavefile": "^11.0.0",
+    "ws": "^8.18.0"
+  }
+}
