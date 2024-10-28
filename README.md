@@ -123,6 +123,8 @@ The `decodeAndSendMulawChunks` function (defined later) handles converting and s
 
 When you receive a `media` event, you get the audio buffer from Speakr, which you need to send to Twilio. The buffer is in **linear16** format at a 24kHz sample rate, but Twilio requires **mu-law encoding** at 8kHz.
 
+You also need to send the **session_id** and **sequence_id** of the buffer as a mark message to Twilio right after sending the buffer.
+
 Use the provided helper functions to convert the buffer before sending it to Twilio.
 
 ```javascript
