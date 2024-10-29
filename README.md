@@ -52,17 +52,20 @@ Speakr WebSocket sends various events during the interaction, which you need to 
 
 When the `initial` event is triggered, send the necessary parameters to Speakr to configure the voice session.
 
+- Speaker offers two voice options: Jill and Jack.
+- You can try out both voices in the Speaker playground.
+
 ```javascript
 {
     type: "start",
     msg: JSON.stringify({
-        temperature: 0.7,
-        prefixPadding: 0.7,
-        voice_id: "jill",
-        silenceDuration: 1000,
-        threshold: 0.18,
-        system_prompt: "You are a helpful assistant",
-        sessionId: uuid,
+        temperature: 0.7, // number
+        prefixPadding: 0.7, // number
+        voice_id: "jill", // string
+        silenceDuration: 1000, // number
+        threshold: 0.18, // number
+        system_prompt: "You are a helpful assistant", // string
+        sessionId: uuid, // string
     }),
 }
 ```
