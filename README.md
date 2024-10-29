@@ -52,6 +52,17 @@ Speakr WebSocket sends various events during the interaction, which you need to 
 
 When the `initial` event is triggered, send the necessary parameters to Speakr to configure the voice session.
 
+
+- To initiate the connection, the client must send a message with the required parameters: `temperature`, `voice`, `silenceDuration`, `threshold`, and a `system_prompt`. Below is the structured format for the message:
+
+#### Parameters:
+- **temperature**: Range 0 to 1 (ideal: 0.5)
+- **voice**: Options are either `"jill"` or `"jack"`
+- **silenceDuration**: Range 10ms to 1000ms (ideal: 1000ms)
+- **threshold**: Range 0 to 1 (ideal: 0.18)
+- **system_prompt**: Provide the system prompt as a string
+- **sessionId**: A unique session identifier as a string
+
 - Speaker offers two voice options: Jill and Jack.
 - You can try out both voices in the Speaker playground.
 
@@ -59,13 +70,13 @@ When the `initial` event is triggered, send the necessary parameters to Speakr t
 {
     type: "start",
     msg: JSON.stringify({
-        temperature: 0.7, // number
-        prefixPadding: 0.7, // number
-        voice_id: "jill", // string
-        silenceDuration: 1000, // number
-        threshold: 0.18, // number
-        system_prompt: "You are a helpful assistant", // string
-        sessionId: uuid, // string
+        temperature: 0.7,                    // Example: 0.7
+        voice_id: "jill",                    // Example: "jill"
+        voice_provider: "speakr_eng_v1",             // Keep this value constant
+        silenceDuration: 1000,               // Example: 1000
+        threshold: 0.18,                     // Example: 0.18
+        system_prompt: "",                   // Yor are a friendly AI assistant
+        sessionId: uuid,                     // Example: "12345"
     }),
 }
 ```
