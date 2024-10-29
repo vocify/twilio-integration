@@ -56,9 +56,9 @@ When the `initial` event is triggered, send the necessary parameters to Speakr t
 - To initiate the connection, the client must send a message with the required parameters: `temperature`, `voice`, `silenceDuration`, `threshold`, and a `system_prompt`. Below is the structured format for the message:
 
 #### Parameters:
-- **temperature**: Range 0 to 1 (ideal: 0.5)
+- **temperature**: Range 0 to 1 (ideal: 0.7)
 - **voice**: Options are either `"jill"` or `"jack"`
-- **silenceDuration**: Range 10ms to 1000ms (ideal: 1000ms)
+- **silenceDuration**: Range 10ms to 100ms (ideal: 100ms)
 - **threshold**: Range 0 to 1 (ideal: 0.18)
 - **system_prompt**: Provide the system prompt as a string
 - **sessionId**: A unique session identifier as a string
@@ -73,7 +73,7 @@ When the `initial` event is triggered, send the necessary parameters to Speakr t
         temperature: 0.7,                    // Example: 0.7
         voice_id: "jill",                    // Example: "jill"
         voice_provider: "speakr_eng_v1",             // Keep this value constant
-        silenceDuration: 1000,               // Example: 1000
+        silenceDuration: 100,               // Example: 100
         threshold: 0.18,                     // Example: 0.18
         system_prompt: "",                   // Yor are a friendly AI assistant
         sessionId: uuid,                     // Example: "12345"
