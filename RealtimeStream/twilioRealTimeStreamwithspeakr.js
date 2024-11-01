@@ -146,9 +146,11 @@ const handleRealTimeStream = async (ws, req) => {
               break;
             // For clearing the buffer so that the user experience is improved
             case "pause":
-              // This is the case when a user intrupts then we have to clear the buffer but that that can be tha case that the intruption which we get from the user side is not the real intruption and if it is not then then you will receive the continue where you have to replay the buffer of the precious response
+              // This case handles user interruptions by clearing the response buffer. However, there may be instances when the user’s message isn’t a true interruption.
+              // If the user's input is not intended to interrupt, you will receive a "continue" command, prompting you to replay the buffer with the previous response.
 
-              // Like if we have sent buffer to the twilio and then user intrupts like user said okay but the intention was not to intrupt user said it normally like we say in a normal conversation then it is not treated as an intruption and you will receive the continue and you have to play the buffer of the previous response.
+              // For example, if the buffer has been sent to Twilio and the user interjects with a phrase like "okay" — without the intention of interrupting but rather as a conversational response — this is not treated as an actual interruption.
+              // In such cases, upon receiving a "continue" command, you should resume playing the buffer from the previous response.
 
               await session.ws.send(
                 JSON.stringify({
@@ -157,11 +159,12 @@ const handleRealTimeStream = async (ws, req) => {
                 })
               );
               break;
-            // Continue is received when you have to play the buffer of the previous response
+            // A "continue" command is received when it's necessary to replay the buffer from the previous response.
+
             case "continue":
               // This is the part which is pending from our side and it will be updated soon but if you can implement the logic it will be great
               break;
-            // That is the actual case to clear all the buffer which was sent to twilio from now the buffer the new query will be received
+            // This is the case where all buffers sent to Twilio should be cleared, allowing the new query to populate the buffer from this point onward.
             case "clear":
               console.log({ type, msg });
               const intrupt_msg = {
