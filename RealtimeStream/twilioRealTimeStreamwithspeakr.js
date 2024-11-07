@@ -186,8 +186,19 @@ const handleRealTimeStream = async (ws, req) => {
                 .toString("utf-8");
               const bufferWithoutMetadata = message.slice(metadataEndIndex + 1);
               try {
-                const { session_id, sequence_id } = JSON.parse(metadataString);
-                console.log(session_id, sequence_id);
+                const { session_id, sequence_id, transcript } =
+                  JSON.parse(metadataString);
+                console.log(session_id, sequence_id, transcript);
+
+                if (sequence_id === "-2") {
+                  console.log("User : ", transcript);
+                } else if (
+                  sequence_id !== "0" &&
+                  sequence_id !== "-1" &&
+                  sequence_id !== "-2"
+                ) {
+                  console.log("AI : ", transcript);
+                }
 
                 if (bufferWithoutMetadata.length <= 0) return;
 

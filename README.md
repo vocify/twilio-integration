@@ -52,10 +52,10 @@ Speakr WebSocket sends various events during the interaction, which you need to 
 
 When the `initial` event is triggered, send the necessary parameters to Speakr to configure the voice session.
 
-
 - To initiate the connection, the client must send a message with the required parameters: `temperature`, `voice`, `silenceDuration`, `threshold`, and a `system_prompt`. Below is the structured format for the message:
 
 #### Parameters:
+
 - **temperature**: Range 0 to 1 (ideal: 0.7)
 - **voice**: Options are either `"jill"` or `"jack"`
 - **silenceDuration**: Range 10ms to 100ms (ideal: 100ms)
@@ -135,18 +135,30 @@ The `decodeAndSendMulawChunks` function (defined later) handles converting and s
 
 ### `media` Event
 
-When you receive a `media` event, you get the audio buffer from Speakr, which you need to send to Twilio. The buffer is in **linear16** format at a 24kHz sample rate, but Twilio requires **mu-law encoding** at 8kHz.
+- When you receive a `media` event, you get the audio buffer from Speakr, which you need to send to Twilio. The buffer is in **linear16** format at a 24kHz sample rate, but Twilio requires **mu-law encoding** at 8kHz.
 
-You also need to send the **session_id** and **sequence_id** of the buffer as a mark message to Twilio right after sending the buffer.
+- You also need to send the **session_id** and **sequence_id** of the buffer as a mark message to Twilio right after sending the buffer.
 
-Use the provided helper functions to convert the buffer before sending it to Twilio.
+- Use the provided helper functions to convert the buffer before sending it to Twilio.
+
+- If you require a transcript for any feature, it will be available in the metadata under 'transcript'. If the `sequence_id` is -2, it indicates the user's transcript, whereas if the `sequence_id` is between 1 and infinity, it corresponds to the AI's transcript.
 
 ```javascript
 const message = Buffer.from(msg, "base64");
 const metadataEndIndex = message.indexOf(0);
 const metadataString = message.slice(0, metadataEndIndex).toString("utf-8");
 const bufferWithoutMetadata = message.slice(metadataEndIndex + 1);
-const { session_id, sequence_id } = JSON.parse(metadataString);
+const { session_id, sequence_id, transcript } = JSON.parse(metadataString);
+
+if (sequence_id === "-2") {
+  console.log("User : ", transcript);
+} else if (
+  sequence_id !== "0" &&
+  sequence_id !== "-1" &&
+  sequence_id !== "-2"
+) {
+  console.log("AI : ", transcript);
+}
 
 const inputSampleRate = 24000;
 
